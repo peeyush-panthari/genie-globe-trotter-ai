@@ -45,6 +45,39 @@
     --sidebar-ring: 262 80% 50%;
   }
 
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-genie-dark text-foreground overflow-x-hidden;
+  }
+  
+  /* Define keyframes for star twinkle animation */
+  @keyframes star-twinkle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
+}
+
+/* Define custom utility classes */
+@layer utilities {
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animate-star-twinkle {
+    animation: star-twinkle 3s ease-in-out infinite;
+  }
+  
   .star {
     @apply absolute rounded-full bg-white;
   }
@@ -59,23 +92,5 @@
   
   .star-large {
     @apply w-1.5 h-1.5 animate-star-twinkle animation-delay-2000;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-genie-dark text-foreground overflow-x-hidden;
-  }
-
-  @keyframes animation-delay-1000 {
-    0% { animation-delay: 1s; }
-  }
-  
-  @keyframes animation-delay-2000 {
-    0% { animation-delay: 2s; }
   }
 }
