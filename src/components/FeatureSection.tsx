@@ -26,7 +26,7 @@ const FeatureSection = () => {
     },
     {
       icon: "list-checks",
-      title: "Custom or Pre-defined",
+      title: "Custom or All-time Favorite",
       description: "Choose from popular itineraries or create your own by selecting preferred destinations."
     },
     {
