@@ -35,7 +35,7 @@ const HeroSection = () => {
           <div className="w-full max-w-3xl mb-10 aspect-video">
             <iframe 
               className="w-full h-full rounded-lg"
-              src="https://www.youtube.com/embed/6LhV372wfcs" 
+              src="https://youtu.be/ufBq2GRjZ8g"
               title="GlobeGenie Demo Video" 
               frameBorder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
