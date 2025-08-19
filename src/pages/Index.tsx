@@ -1,14 +1,37 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Globe, Sparkles, Users, Calendar, Map, ArrowRight, Star } from "lucide-react";
+import { Globe, Sparkles, Users, Calendar, Map, ArrowRight, Star, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import TravelChatbot from "@/components/TravelChatbot";
 import ItineraryDisplay from "@/components/ItineraryDisplay";
 
 const Index = () => {
   const [showChatbot, setShowChatbot] = useState(false);
   const [currentItinerary, setCurrentItinerary] = useState(null);
+  
+  const { user, loading, signOut } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Don't redirect while loading to prevent flash
+    if (loading) return;
+    
+    // Only redirect if user is not authenticated and trying to access protected features
+    // For now, we'll allow browsing but require auth for planning
+  }, [loading, user]);
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({
+      title: "Signed out",
+      description: "You've been successfully signed out.",
+    });
+  };
 
   const features = [
     {
@@ -55,6 +78,10 @@ const Index = () => {
   ];
 
   const handleStartPlanning = () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
     setShowChatbot(true);
   };
 
@@ -89,7 +116,21 @@ const Index = () => {
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
               <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition-colors">How it Works</a>
               <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Reviews</a>
-              <Button variant="outline" size="sm">Sign In</Button>
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm text-gray-600">
+                    Welcome, {user.user_metadata?.display_name || user.email}
+                  </span>
+                  <Button variant="outline" size="sm" onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
+                  Sign In
+                </Button>
+              )}
             </div>
           </div>
         </div>
